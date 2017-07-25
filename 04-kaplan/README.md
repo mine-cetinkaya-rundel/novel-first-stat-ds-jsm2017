@@ -1,0 +1,7 @@
+# Teaching Stats for Data Science
+
+by Daniel Kaplan, Macalester College 
+
+## Abstract
+
+Instructors generally don't give much thought to how and why the technical topics of introductory statistics came to be what they are: means, proportions, t-tests, normal distributions, chi-squared, etc. My reading of history suggests that these topics were not the discovery of mathematical foundations, but rather were sensible and pragmatic choices for the first half of the 20th century, in particular an environment where data was scarce and originated in benchtop or agricultural experiments, and algorithms were communicated via algebraic formulas. Today, most interest in statistics relates to a different environment: software is the means of algorithmic communication, observational and unplanned data are interpreted for causal relationships, and data are large both in n and the number of variables. This dramatic change in situation calls for a thorough rethinking of the topics in and approach to statistics education. I'll describe the design I reached for intro stats starting with an orientation to data science. This includes putting data management and visualization front and center, emphasizing models and effect sizes, and basing inference on cross-validation and resampling.

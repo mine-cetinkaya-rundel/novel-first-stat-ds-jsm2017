@@ -1,0 +1,7 @@
+# A First-Year Undergraduate Data Science Course
+
+by Mine Cetinkaya-Rundel, Duke University & RStudio
+
+## Abstract
+
+In this talk we will discuss an R based first-year undergraduate data science course taught at Duke University for an audience of students with little to no computing or statistical background. The course focuses on data wrangling and munging, exploratory data analysis, data visualization, and effective communication. The course is designed to be a first course in statistics for students interested in pursuing a quantitative major. Unlike most traditional introductory statistics courses, this course approaches statistics from a model-based, instead of an inference-based, perspective, and introduces simulation-based inference and Bayesian inference later in the course. A heavy emphasis is placed on reproducibility (with R Markdown) and version control and collaboration (with git/GitHub). We will discuss in detail course structure, logistics, and pedagogical considerations as well as give examples from the case studies used in the course. We will also share student feedback, assessment of the success of the course in recruiting students to the statistical science major, and plans to adapt the course as a gateway to the statistics major.

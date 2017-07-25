@@ -1,0 +1,7 @@
+# Lessons Learned in Transitioning from "Intro to Statistics" to "Reasoning with Data"
+
+by Rebecca Nugent, Carnegie Mellon
+
+## Abstract
+
+The Carnegie Mellon Statistics Undergraduate Program has steadily revamped its curriculum to embrace modern statistical methodology, computing, and interdisciplinary research. Even with rapid class size expansion, our upper level curriculum is now fairly stable. However, our introductory statistics course has not been updated in over a decade. This course is required for every freshman in the Dietrich College of Humanities and Social Sciences, a group with mathematical backgrounds and interests spanning Professional Writing to Statistics and Machine Learning. In conjunction with a general education curriculum overhaul, our department is re-envisioning what it means to teach students how to think about data when "data" could range from more traditional continuous and categorical variables to images and digitized historical documents. In Spring/Summer 2017, we launched pilot versions of "Reasoning with Data", an introductory course designed to teach statistical concepts in conjunction with the types of data from the Humanities and Social Sciences. Here we present lessons learned from this first iteration and how we might continue developing a general education course in "data".
