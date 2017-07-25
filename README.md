@@ -12,10 +12,11 @@ For some students the first course in statistics may be the only quantitative re
 
 ## People
 
-- **Speakers**:
+- **Speakers:**
   - Benjamin Baumer, Smith College - Three Methods Approach to Statistical Inference
   - Rebecca Nugent, Carnegie Mellon - Lessons Learned in Transitioning from "Intro to Statistics" to "Reasoning with Data"
   - Mine Cetinkaya-Rundel, Duke University & RStudio - A First-Year Undergraduate Data Science Course
   - Teaching Stats for Data Science - Daniel Kaplan, Macalester College
-- **Discussant**: Deb Nolan (UC Berkeley)
-- **Chair**: Andrew Bray (Reed College)
+- **Discussant:** Deb Nolan (UC Berkeley)
+- **Chair:** Andrew Bray (Reed College)
+- **Organizer:** Mine Cetinkaya-Rundel, Duke University & RStudio
