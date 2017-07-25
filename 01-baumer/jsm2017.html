@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Three Methods approach to Statistical Inference</title>
+  <title>Three Methods for Statistical Inference</title>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -58,41 +58,37 @@
 <body class="shower list">
 
   <header class="caption">
-    <h1>Three Methods approach to Statistical Inference</h1>
+    <h1>Three Methods for Statistical Inference</h1>
     <p>Ben Baumer</p>
   </header>
 
     
   
-<section id="three-methods-approach-to-statistical-inference" class="slide level2 blue">
-<h2>Three Methods approach to Statistical Inference</h2>
-<!--
-<img src="https://espnfivethirtyeight.files.wordpress.com/2016/06/gettyimages-455266466.jpg?w=3551" class="cover">
--->
-<p><img src="https://media.npr.org/assets/img/2016/05/13/gettyimages-3432301_wide-4fb45214b435b22913674ab536549738c51a3e15.jpg?s=1400" class="cover"></p>
-</br></br></br></br>
-<p>
-Ben Baumer</br> JSM Baltimore</br> July 31st, 2017</br> (<a href="http://beanumber.github.io/jsm2017.html" class="uri">http://beanumber.github.io/jsm2017.html</a>)
+<section id="three-methods-for-statistical-inference" class="slide level2 white">
+<h2>Three Methods for Statistical Inference</h2>
+<p><img src="http://1.bp.blogspot.com/-ueOnJA9cGJk/VHWza-0saaI/AAAAAAAAP4g/WTbdP2qNSaE/s1920/monkey-wallpaper-hd.jpg" class="cover"></p>
+</br></br></br>
+<p class="white">
+Ben Baumer</br> JSM Baltimore</br> July 31st, 2017</br> (<a href="https://github.com/mine-cetinkaya-rundel/novel-first-stat-ds-jsm2017" class="uri">https://github.com/mine-cetinkaya-rundel/novel-first-stat-ds-jsm2017</a>)
 </p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knitr::opts_chunk$<span class="kw">set</span>(<span class="dt">fig.height =</span> <span class="fl">3.5</span>)</code></pre></div>
 </section>
-<section id="three-methods" class="slide level2">
-<h2>Three Methods</h2>
-<ul>
-<li>Simulation</li>
-<li>Exact</li>
-<li>Approximation</li>
-</ul>
+<section id="three-methods-to-constuct-null-distribution" class="slide level2">
+<h2>Three Methods to constuct null distribution</h2>
+<ol type="1">
+<li class="fragment next">Simulation: use computer to <em>simulate</em></li>
+<li class="fragment next">Exact: use math to <em>compute</em></li>
+<li class="fragment next">Approximation: use statistical theory to <em>approximate</em></li>
+</ol>
 </section>
-<section id="example-one-proportion-simulation" class="slide level2">
-<h2>Example: one proportion, simulation</h2>
+<section id="an-exampleone-proportion" class="titleslide slide level1"><h2 class="shout">An example:</br>one proportion</h2></section><section id="method-1-simulation" class="slide level2">
+<h2>Method #1: simulation</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 
 outcomes &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">candidate =</span> <span class="kw">c</span>(<span class="st">&quot;clinton&quot;</span>, <span class="st">&quot;trump&quot;</span>))
 p_0 &lt;-<span class="st"> </span><span class="dv">1</span>/<span class="dv">2</span>
 
 <span class="co"># http://www.cnn.com/election/results/exit-polls</span>
-n &lt;-<span class="st"> </span><span class="dv">2459</span>
+n &lt;-<span class="st"> </span><span class="dv">2458</span>
 
 sim &lt;-<span class="st"> </span>outcomes %&gt;%
 <span class="st">  </span>oilabs::<span class="kw">rep_sample_n</span>(<span class="dt">size =</span> n, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>) %&gt;%
@@ -100,9 +96,8 @@ sim &lt;-<span class="st"> </span>outcomes %&gt;%
 <span class="st">  </span><span class="kw">summarize</span>(<span class="dt">N =</span> <span class="kw">n</span>(), 
             <span class="dt">clinton_votes =</span> <span class="kw">sum</span>(candidate ==<span class="st"> &quot;clinton&quot;</span>)) %&gt;%
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">clinton_pct =</span> clinton_votes /<span class="st"> </span>N)</code></pre></div>
-</section>
-<section id="example-one-proportion-simulation-plot" class="slide level2">
-<h2>Example: one proportion, simulation plot</h2>
+</section><section id="method-1-simulation-observed" class="slide level2">
+<h2>Method #1: simulation, observed</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># observed proportion</span>
 p_hat &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">clinton_pct =</span> <span class="fl">0.5092953</span>)
 
@@ -110,15 +105,13 @@ observed &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span clas
 <span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> clinton_pct), 
              <span class="dt">color =</span> <span class="st">&quot;gold&quot;</span>, <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">linetype =</span> <span class="dv">2</span>) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="fl">0.45</span>, <span class="fl">0.55</span>))</code></pre></div>
-</section>
-<section id="example-one-proportion-simulation-plot-1" class="slide level2">
-<h2>Example: one proportion, simulation plot</h2>
+</section><section id="method-1-simulation-plot" class="slide level2">
+<h2>Method #1: simulation, plot</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">observed +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data =</span> sim, <span class="kw">aes</span>(<span class="dt">x =</span> clinton_pct))</code></pre></div>
 <p><img src="jsm2017_files/figure-revealjs/unnamed-chunk-4-1.png" width="768" /></p>
-</section>
-<section id="example-one-proportion-exact" class="slide level2">
-<h2>Example: one proportion, exact</h2>
+</section><section id="method-2-exact" class="slide level2">
+<h2>Method #2: exact</h2>
 <ul>
 <li>Let <span class="math inline">\(X \sim Bernoulli(p_0)\)</span>, then
 <ul>
@@ -130,39 +123,34 @@ observed &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span clas
 <li>for later, <span class="math inline">\(sd(Z) = \sqrt{\frac{p_0 (1 - p_0)}{n}}\)</span></li>
 </ul></li>
 </ul>
-</section>
-<section id="example-one-proportion-exact-plot" class="slide level2">
-<h2>Example: one proportion, exact plot</h2>
+</section><section id="method-2-exact-plot" class="slide level2">
+<h2>Method #2: exact, plot</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dbinom_p &lt;-<span class="st"> </span>function (x, size, prob, <span class="dt">log =</span> <span class="ot">FALSE</span>) {
   n *<span class="st"> </span><span class="kw">dbinom</span>(<span class="kw">round</span>(x *<span class="st"> </span>size), size, prob, log)
 }
 observed +
 <span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dbinom_p, <span class="dt">args =</span> <span class="kw">c</span>(<span class="dt">size =</span> n, <span class="dt">prob =</span> p_0))</code></pre></div>
 <p><img src="jsm2017_files/figure-revealjs/unnamed-chunk-5-1.png" width="768" /></p>
-</section>
-<section id="example-one-proportion-approximation" class="slide level2">
-<h2>Example: one proportion, approximation</h2>
+</section><section id="method-3-approximation" class="slide level2">
+<h2>Method #3: approximation</h2>
 <ul>
 <li>For <span class="math inline">\(np &gt; 10\)</span> and <span class="math inline">\(n(1-p) &gt; 10\)</span>, <span class="math display">\[Binomial(n, p) \approx Normal \left( p_0, \sqrt{\frac{p_0 (1 - p_0)}{n}} \right) \]</span></li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">se_p0 &lt;-<span class="st"> </span><span class="kw">sqrt</span>(p_0 *<span class="st"> </span>(<span class="dv">1</span>-p_0) /<span class="st"> </span>n)</code></pre></div>
-</section>
-<section id="example-one-proportion-approximation-plot" class="slide level2">
-<h2>Example: one proportion, approximation plot</h2>
+</section><section id="method-3-approximation-plot" class="slide level2">
+<h2>Method #3: approximation, plot</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">observed +
 <span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">args =</span> <span class="kw">c</span>(<span class="dt">mean =</span> p_0, <span class="dt">sd =</span> se_p0))</code></pre></div>
 <p><img src="jsm2017_files/figure-revealjs/unnamed-chunk-7-1.png" width="768" /></p>
-</section>
-<section id="example-one-proportion-comparison" class="slide level2">
-<h2>Example: one proportion comparison</h2>
+</section><section id="three-methods-comparison-plot" class="slide level2">
+<h2>Three methods comparison, plot</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">observed +
 <span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data =</span> sim, <span class="kw">aes</span>(<span class="dt">x =</span> clinton_pct)) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dbinom_p, <span class="dt">args =</span> <span class="kw">c</span>(<span class="dt">size =</span> n, <span class="dt">prob =</span> p_0), <span class="dt">color =</span> <span class="st">&quot;cyan&quot;</span>) +
 <span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">args =</span> <span class="kw">c</span>(<span class="dt">mean =</span> p_0, <span class="dt">sd =</span> se_p0), <span class="dt">color =</span> <span class="st">&quot;magenta&quot;</span>)</code></pre></div>
 <p><img src="jsm2017_files/figure-revealjs/unnamed-chunk-8-1.png" width="768" /></p>
-</section>
-<section id="three-methods-comparison" class="slide level2">
-<h2>Three methods comparison</h2>
+</section><section id="three-methods-comparison-table" class="slide level2">
+<h2>Three methods comparison, table</h2>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -200,49 +188,70 @@ observed +
 </tbody>
 </table>
 </section>
-<section id="when-i-took-stats" class="slide level2">
+<section id="how-did-i-get-here" class="titleslide slide level1"><h2 class="shout">How did I get here?</h2></section><section id="when-i-took-stats" class="slide level2">
 <h2>When I took stats</h2>
 <ul>
 <li><del>Simulation</del></li>
 <li><del>Exact</del> (in probability class)</li>
 <li>Approximation</li>
 </ul>
-</section>
-<section id="contributions-from" class="slide level2">
+</section><section id="contributions-from" class="slide level2">
 <h2>Contributions from</h2>
+<div class="double">
+<p class="double-flow">
 <ul>
 <li>George Cobb</li>
 <li>Andrew Bray</li>
 <li>Brad Efron</li>
 </ul>
-</section>
-<section id="datacamp" class="slide level2">
+</p>
+<p class="double-flow">
+<img src="https://www.causeweb.org/sbi/wp-content/uploads/2015/03/GCobb.png" width="200px"> <img src="https://andrewpbray.github.io/abray-pic2.JPG" width="200px"> <img src="https://web.stanford.edu/~hastie/CASI/images/jacket_wave_cropped.jpg" width="200px">
+</p>
+</div>
+</section><section id="datacamp" class="slide level2">
 <h2>DataCamp</h2>
 <ul>
 <li>Mine Cetinkaya-Rundel</li>
 <li>Andrew Bray</li>
 <li>Jo Hardin</li>
 </ul>
-</section>
-<section id="unification" class="slide level2 fullpage">
-<h2>Unification</h2>
+</section><section id="pictures" class="slide level2 fullpage">
+<h2>Pictures</h2>
 <p><img src="statistical_inference.jpg" class="white" width="600px"></p>
 </section>
-<section id="infer" class="slide level2">
-<h2><code>infer</code></h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(infer)</code></pre></div>
-<pre><code>## Error in library(infer): there is no package called &#39;infer&#39;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">outcomes %&gt;%
+<section id="unification" class="titleslide slide level1"><h2 class="shout">Unification?</h2></section><section id="common-setup-with-infer" class="slide level2">
+<h2>Common setup with <code>infer</code></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># devtools::install_github(&quot;andrewpbray/infer&quot;)</span>
+<span class="kw">library</span>(infer)
+
+fake_null &lt;-<span class="st"> </span><span class="kw">data_frame</span>(
+  <span class="dt">candidate =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;clinton&quot;</span>, <span class="st">&quot;trump&quot;</span>), <span class="dt">each =</span> n/<span class="dv">2</span>)
+)
+
+setup &lt;-<span class="st"> </span>fake_null %&gt;%
 <span class="st">  </span><span class="kw">specify</span>(<span class="dt">response =</span> candidate) %&gt;%
-<span class="st">  </span><span class="kw">hypothesize</span>(<span class="dt">null =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">p =</span> <span class="kw">c</span>(<span class="st">&quot;clinton&quot;</span> =<span class="st"> </span><span class="fl">0.5</span>, <span class="st">&quot;trump&quot;</span> =<span class="st"> </span><span class="fl">0.5</span>)) %&gt;%
+<span class="st">  </span><span class="kw">hypothesize</span>(<span class="dt">null =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">p =</span> <span class="kw">c</span>(<span class="st">&quot;clinton&quot;</span> =<span class="st"> </span><span class="fl">0.5</span>, <span class="st">&quot;trump&quot;</span> =<span class="st"> </span><span class="fl">0.5</span>))</code></pre></div>
+</section><section id="method-1-with-infer" class="slide level2">
+<h2>Method #1 with <code>infer</code></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">setup %&gt;%
 <span class="st">  </span><span class="kw">generate</span>(<span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">type =</span> <span class="st">&quot;simulate&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">calculate</span>(<span class="dt">stat =</span> <span class="st">&quot;prop&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">visualize</span>()</code></pre></div>
-<pre><code>## Error in specify(., response = candidate): could not find function &quot;specify&quot;</code></pre>
-</section>
-<section id="thank-you" class="slide level2 fullpage">
+<span class="st">  </span><span class="kw">visualize</span>() +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">data =</span> p_hat, <span class="kw">aes</span>(<span class="dt">xintercept =</span> clinton_pct), 
+             <span class="dt">color =</span> <span class="st">&quot;gold&quot;</span>, <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">linetype =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="jsm2017_files/figure-revealjs/unnamed-chunk-10-1.png" width="768" /></p>
+</section><section id="method-3-with-infer" class="slide level2">
+<h2>Method #3 with <code>infer</code></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">setup %&gt;%
+<span class="st">  </span><span class="kw">calculate</span>(<span class="dt">stat =</span> <span class="st">&quot;prop&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">visualize</span>() +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">data =</span> p_hat, <span class="kw">aes</span>(<span class="dt">xintercept =</span> clinton_pct), 
+             <span class="dt">color =</span> <span class="st">&quot;gold&quot;</span>, <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">linetype =</span> <span class="dv">2</span>)</code></pre></div>
+</section><section id="thank-you" class="slide level2 fullpage">
 <h2>Thank you!</h2>
 <p><img src="https://media.giphy.com/media/aAW7yJ4m7YCti/giphy.gif" width="400px"></p>
+<p></br></br></br></br></br></br> (<a href="https://github.com/mine-cetinkaya-rundel/novel-first-stat-ds-jsm2017" class="uri">https://github.com/mine-cetinkaya-rundel/novel-first-stat-ds-jsm2017</a>)</p>
 </section>
 
   <!--
