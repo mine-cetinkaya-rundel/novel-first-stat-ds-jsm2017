@@ -1,0 +1,176 @@
+---
+title: "Three Methods approach to Statistical Inference"
+author: "Ben Baumer"
+date: "July 31, 2017"
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    ratio: 16x10
+abstract: "Statistics educators---imbued with improved computing power---have advocated for a greater emphasis on randomization and simulation-based techniques for statistical inference in recent years. While these ideas are not new, the traditional treatment of inference in introductory statistics courses has focused on methods that approximate the sampling distribution of a statistic with a probability distribution. We describe an approach to teaching inference in an introductory statistics course---for students who primarily major in the sciences---that emphasizes randomization and simulation-based approaches, briefly discusses but largely glosses over mathematical approaches using probability theory, and treats normal-based approximations as an alternative technique. The overall conceptual goal is to understand the sampling distribution of the test statistic: the three approaches are just means to that end. "
+---
+
+## Three Methods approach to Statistical Inference { .blue }
+
+<!--
+<img src="https://espnfivethirtyeight.files.wordpress.com/2016/06/gettyimages-455266466.jpg?w=3551" class="cover">
+-->
+<img src="https://media.npr.org/assets/img/2016/05/13/gettyimages-3432301_wide-4fb45214b435b22913674ab536549738c51a3e15.jpg?s=1400" class="cover">
+
+</br></br></br></br>
+<p>
+Ben Baumer</br>
+JSM Baltimore</br>
+July 31st, 2017</br>
+(http://beanumber.github.io/jsm2017.html)
+</p>
+
+```{r}
+knitr::opts_chunk$set(fig.height = 3.5)
+```
+
+## Three Methods
+
+- Simulation
+- Exact
+- Approximation
+
+## Example: one proportion, simulation
+
+
+```{r, message=FALSE}
+library(tidyverse)
+
+outcomes <- data_frame(candidate = c("clinton", "trump"))
+p_0 <- 1/2
+
+# http://www.cnn.com/election/results/exit-polls
+n <- 2459
+
+sim <- outcomes %>%
+  oilabs::rep_sample_n(size = n, replace = TRUE, reps = 1000) %>%
+  group_by(replicate) %>%
+  summarize(N = n(), 
+            clinton_votes = sum(candidate == "clinton")) %>%
+  mutate(clinton_pct = clinton_votes / N)
+```
+
+## Example: one proportion, simulation plot
+
+```{r}
+# observed proportion
+p_hat <- data_frame(clinton_pct = 0.5092953)
+
+observed <- ggplot(data = p_hat) + 
+  geom_vline(aes(xintercept = clinton_pct), 
+             color = "gold", size = 2, linetype = 2) + 
+  scale_x_continuous(limits = c(0.45, 0.55))
+```
+
+## Example: one proportion, simulation plot
+
+```{r, message=FALSE}
+observed + 
+  geom_density(data = sim, aes(x = clinton_pct))
+```
+
+## Example: one proportion, exact
+
+- Let $X \sim Bernoulli(p_0)$, then
+    - $\mathbb{E}[X] = p_0, \qquad Var[X] = p_0 (1 - p_0)$
+    
+- Let $Z = \frac{X_1 + \cdots + X_n}{n}$, then
+    - $\mathbb{E}[Z] = p_0, \qquad Var[Z] = \frac{p_0 (1 - p_0)}{n}$
+    - for later, $sd(Z) = \sqrt{\frac{p_0 (1 - p_0)}{n}}$
+
+
+
+## Example: one proportion, exact plot
+
+```{r, fig.height=3}
+dbinom_p <- function (x, size, prob, log = FALSE) {
+  n * dbinom(round(x * size), size, prob, log)
+}
+observed +
+  stat_function(fun = dbinom_p, args = c(size = n, prob = p_0))
+```
+
+## Example: one proportion, approximation
+
+- For $np > 10$ and $n(1-p) > 10$,
+$$Binomial(n, p) \approx Normal \left( p_0, \sqrt{\frac{p_0 (1 - p_0)}{n}} \right) $$
+
+```{r}
+se_p0 <- sqrt(p_0 * (1-p_0) / n)
+```
+
+## Example: one proportion, approximation plot
+
+```{r}
+observed +
+  stat_function(fun = dnorm, args = c(mean = p_0, sd = se_p0))
+```
+
+## Example: one proportion comparison
+
+```{r}
+observed +
+  geom_density(data = sim, aes(x = clinton_pct)) + 
+  stat_function(fun = dbinom_p, args = c(size = n, prob = p_0), color = "cyan") +
+  stat_function(fun = dnorm, args = c(mean = p_0, sd = se_p0), color = "magenta")
+```
+
+## Three methods comparison
+
+--------------------------------------------------------------------------------
+             Simulation                    Exact             Approximation
+----------- --------------------- --------------------- ------------------------
+Assumptions     independence           independence          independence
+                                     probability model        normality
+                                                              $np > 10$, etc.
+
+  Pros          no math               exact solution          uses normal
+                flexible                                   approx. usually good
+                                                         no CPU required (sort of)
+
+   Cons        requires CPU              HARD!              more assumptions
+               non-deterministic                            not exact 
+--------------------------------------------------------------------------------
+
+## When I took stats
+
+- ~~Simulation~~
+- ~~Exact~~ (in probability class)
+- Approximation
+
+## Contributions from
+
+- George Cobb
+- Andrew Bray
+- Brad Efron
+
+## DataCamp
+
+- Mine Cetinkaya-Rundel
+- Andrew Bray
+- Jo Hardin
+
+## Unification { .fullpage }
+
+<img src="statistical_inference.jpg" class="white" width="600px">
+
+## `infer`
+
+```{r, error=TRUE}
+library(infer)
+outcomes %>%
+  specify(response = candidate) %>%
+  hypothesize(null = "point", p = c("clinton" = 0.5, "trump" = 0.5)) %>%
+  generate(reps = 1000, type = "simulate") %>%
+  calculate(stat = "prop") %>%
+  visualize()
+```
+
+## Thank you! {.fullpage}
+
+<img src="https://media.giphy.com/media/aAW7yJ4m7YCti/giphy.gif" width="400px">

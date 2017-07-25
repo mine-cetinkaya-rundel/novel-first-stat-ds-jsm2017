@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Three Methods approach to Statistical Inference</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="jsm2017_files/rmdshower/node_modules/shower-ribbon/styles/screen-16x10.css">
+  <link rel="stylesheet" href="jsm2017_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="jsm2017_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="jsm2017_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+    <style type="text/css">
+   div.sourceCode { overflow-x: auto; }
+   table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+     margin: 0; padding: 0; vertical-align: baseline; border: none; }
+   table.sourceCode { width: 100%; line-height: 100%; }
+   td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+   td.sourceCode { padding-left: 5px; }
+   code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+   code > span.dt { color: #902000; } /* DataType */
+   code > span.dv { color: #40a070; } /* DecVal */
+   code > span.bn { color: #40a070; } /* BaseN */
+   code > span.fl { color: #40a070; } /* Float */
+   code > span.ch { color: #4070a0; } /* Char */
+   code > span.st { color: #4070a0; } /* String */
+   code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+   code > span.ot { color: #007020; } /* Other */
+   code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+   code > span.fu { color: #06287e; } /* Function */
+   code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+   code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+   code > span.cn { color: #880000; } /* Constant */
+   code > span.sc { color: #4070a0; } /* SpecialChar */
+   code > span.vs { color: #4070a0; } /* VerbatimString */
+   code > span.ss { color: #bb6688; } /* SpecialString */
+   code > span.im { } /* Import */
+   code > span.va { color: #19177c; } /* Variable */
+   code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+   code > span.op { color: #666666; } /* Operator */
+   code > span.bu { } /* BuiltIn */
+   code > span.ex { } /* Extension */
+   code > span.pp { color: #bc7a00; } /* Preprocessor */
+   code > span.at { color: #7d9029; } /* Attribute */
+   code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+   code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+   code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+   code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Three Methods approach to Statistical Inference</h1>
+    <p>Ben Baumer</p>
+  </header>
+
+    
+  
+<section id="three-methods-approach-to-statistical-inference" class="slide level2 blue">
+<h2>Three Methods approach to Statistical Inference</h2>
+<!--
+<img src="https://espnfivethirtyeight.files.wordpress.com/2016/06/gettyimages-455266466.jpg?w=3551" class="cover">
+-->
+<p><img src="https://media.npr.org/assets/img/2016/05/13/gettyimages-3432301_wide-4fb45214b435b22913674ab536549738c51a3e15.jpg?s=1400" class="cover"></p>
+</br></br></br></br>
+<p>
+Ben Baumer</br> JSM Baltimore</br> July 31st, 2017</br> (<a href="http://beanumber.github.io/jsm2017.html" class="uri">http://beanumber.github.io/jsm2017.html</a>)
+</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knitr::opts_chunk$<span class="kw">set</span>(<span class="dt">fig.height =</span> <span class="fl">3.5</span>)</code></pre></div>
+</section>
+<section id="three-methods" class="slide level2">
+<h2>Three Methods</h2>
+<ul>
+<li>Simulation</li>
+<li>Exact</li>
+<li>Approximation</li>
+</ul>
+</section>
+<section id="example-one-proportion-simulation" class="slide level2">
+<h2>Example: one proportion, simulation</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+
+outcomes &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">candidate =</span> <span class="kw">c</span>(<span class="st">&quot;clinton&quot;</span>, <span class="st">&quot;trump&quot;</span>))
+p_0 &lt;-<span class="st"> </span><span class="dv">1</span>/<span class="dv">2</span>
+
+<span class="co"># http://www.cnn.com/election/results/exit-polls</span>
+n &lt;-<span class="st"> </span><span class="dv">2459</span>
+
+sim &lt;-<span class="st"> </span>outcomes %&gt;%
+<span class="st">  </span>oilabs::<span class="kw">rep_sample_n</span>(<span class="dt">size =</span> n, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>) %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(replicate) %&gt;%
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">N =</span> <span class="kw">n</span>(), 
+            <span class="dt">clinton_votes =</span> <span class="kw">sum</span>(candidate ==<span class="st"> &quot;clinton&quot;</span>)) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">clinton_pct =</span> clinton_votes /<span class="st"> </span>N)</code></pre></div>
+</section>
+<section id="example-one-proportion-simulation-plot" class="slide level2">
+<h2>Example: one proportion, simulation plot</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># observed proportion</span>
+p_hat &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">clinton_pct =</span> <span class="fl">0.5092953</span>)
+
+observed &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> p_hat) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> clinton_pct), 
+             <span class="dt">color =</span> <span class="st">&quot;gold&quot;</span>, <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">linetype =</span> <span class="dv">2</span>) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="fl">0.45</span>, <span class="fl">0.55</span>))</code></pre></div>
+</section>
+<section id="example-one-proportion-simulation-plot-1" class="slide level2">
+<h2>Example: one proportion, simulation plot</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">observed +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data =</span> sim, <span class="kw">aes</span>(<span class="dt">x =</span> clinton_pct))</code></pre></div>
+<p><img src="jsm2017_files/figure-revealjs/unnamed-chunk-4-1.png" width="768" /></p>
+</section>
+<section id="example-one-proportion-exact" class="slide level2">
+<h2>Example: one proportion, exact</h2>
+<ul>
+<li>Let <span class="math inline">\(X \sim Bernoulli(p_0)\)</span>, then
+<ul>
+<li><span class="math inline">\(\mathbb{E}[X] = p_0, \qquad Var[X] = p_0 (1 - p_0)\)</span></li>
+</ul></li>
+<li>Let <span class="math inline">\(Z = \frac{X_1 + \cdots + X_n}{n}\)</span>, then
+<ul>
+<li><span class="math inline">\(\mathbb{E}[Z] = p_0, \qquad Var[Z] = \frac{p_0 (1 - p_0)}{n}\)</span></li>
+<li>for later, <span class="math inline">\(sd(Z) = \sqrt{\frac{p_0 (1 - p_0)}{n}}\)</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="example-one-proportion-exact-plot" class="slide level2">
+<h2>Example: one proportion, exact plot</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dbinom_p &lt;-<span class="st"> </span>function (x, size, prob, <span class="dt">log =</span> <span class="ot">FALSE</span>) {
+  n *<span class="st"> </span><span class="kw">dbinom</span>(<span class="kw">round</span>(x *<span class="st"> </span>size), size, prob, log)
+}
+observed +
+<span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dbinom_p, <span class="dt">args =</span> <span class="kw">c</span>(<span class="dt">size =</span> n, <span class="dt">prob =</span> p_0))</code></pre></div>
+<p><img src="jsm2017_files/figure-revealjs/unnamed-chunk-5-1.png" width="768" /></p>
+</section>
+<section id="example-one-proportion-approximation" class="slide level2">
+<h2>Example: one proportion, approximation</h2>
+<ul>
+<li>For <span class="math inline">\(np &gt; 10\)</span> and <span class="math inline">\(n(1-p) &gt; 10\)</span>, <span class="math display">\[Binomial(n, p) \approx Normal \left( p_0, \sqrt{\frac{p_0 (1 - p_0)}{n}} \right) \]</span></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">se_p0 &lt;-<span class="st"> </span><span class="kw">sqrt</span>(p_0 *<span class="st"> </span>(<span class="dv">1</span>-p_0) /<span class="st"> </span>n)</code></pre></div>
+</section>
+<section id="example-one-proportion-approximation-plot" class="slide level2">
+<h2>Example: one proportion, approximation plot</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">observed +
+<span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">args =</span> <span class="kw">c</span>(<span class="dt">mean =</span> p_0, <span class="dt">sd =</span> se_p0))</code></pre></div>
+<p><img src="jsm2017_files/figure-revealjs/unnamed-chunk-7-1.png" width="768" /></p>
+</section>
+<section id="example-one-proportion-comparison" class="slide level2">
+<h2>Example: one proportion comparison</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">observed +
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data =</span> sim, <span class="kw">aes</span>(<span class="dt">x =</span> clinton_pct)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dbinom_p, <span class="dt">args =</span> <span class="kw">c</span>(<span class="dt">size =</span> n, <span class="dt">prob =</span> p_0), <span class="dt">color =</span> <span class="st">&quot;cyan&quot;</span>) +
+<span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">args =</span> <span class="kw">c</span>(<span class="dt">mean =</span> p_0, <span class="dt">sd =</span> se_p0), <span class="dt">color =</span> <span class="st">&quot;magenta&quot;</span>)</code></pre></div>
+<p><img src="jsm2017_files/figure-revealjs/unnamed-chunk-8-1.png" width="768" /></p>
+</section>
+<section id="three-methods-comparison" class="slide level2">
+<h2>Three methods comparison</h2>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 27%" />
+<col style="width: 27%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;">Simulation</th>
+<th style="text-align: center;">Exact</th>
+<th style="text-align: center;">Approximation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Assumptions</td>
+<td style="text-align: center;">independence</td>
+<td style="text-align: center;">independence probability model</td>
+<td style="text-align: center;">independence normality <span class="math inline">\(np &gt; 10\)</span>, etc.</td>
+</tr>
+<tr class="even">
+<td>Pros</td>
+<td style="text-align: center;">no math flexible</td>
+<td style="text-align: center;">exact solution</td>
+<td style="text-align: center;">uses normal approx. usually good no CPU required (sort of)</td>
+</tr>
+<tr class="odd">
+<td>Cons</td>
+<td style="text-align: center;">requires CPU non-deterministic</td>
+<td style="text-align: center;">HARD!</td>
+<td style="text-align: center;">more assumptions not exact</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="when-i-took-stats" class="slide level2">
+<h2>When I took stats</h2>
+<ul>
+<li><del>Simulation</del></li>
+<li><del>Exact</del> (in probability class)</li>
+<li>Approximation</li>
+</ul>
+</section>
+<section id="contributions-from" class="slide level2">
+<h2>Contributions from</h2>
+<ul>
+<li>George Cobb</li>
+<li>Andrew Bray</li>
+<li>Brad Efron</li>
+</ul>
+</section>
+<section id="datacamp" class="slide level2">
+<h2>DataCamp</h2>
+<ul>
+<li>Mine Cetinkaya-Rundel</li>
+<li>Andrew Bray</li>
+<li>Jo Hardin</li>
+</ul>
+</section>
+<section id="unification" class="slide level2 fullpage">
+<h2>Unification</h2>
+<p><img src="statistical_inference.jpg" class="white" width="600px"></p>
+</section>
+<section id="infer" class="slide level2">
+<h2><code>infer</code></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(infer)</code></pre></div>
+<pre><code>## Error in library(infer): there is no package called &#39;infer&#39;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">outcomes %&gt;%
+<span class="st">  </span><span class="kw">specify</span>(<span class="dt">response =</span> candidate) %&gt;%
+<span class="st">  </span><span class="kw">hypothesize</span>(<span class="dt">null =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">p =</span> <span class="kw">c</span>(<span class="st">&quot;clinton&quot;</span> =<span class="st"> </span><span class="fl">0.5</span>, <span class="st">&quot;trump&quot;</span> =<span class="st"> </span><span class="fl">0.5</span>)) %&gt;%
+<span class="st">  </span><span class="kw">generate</span>(<span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">type =</span> <span class="st">&quot;simulate&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">calculate</span>(<span class="dt">stat =</span> <span class="st">&quot;prop&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">visualize</span>()</code></pre></div>
+<pre><code>## Error in specify(., response = candidate): could not find function &quot;specify&quot;</code></pre>
+</section>
+<section id="thank-you" class="slide level2 fullpage">
+<h2>Thank you!</h2>
+<p><img src="https://media.giphy.com/media/aAW7yJ4m7YCti/giphy.gif" width="400px"></p>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="jsm2017_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>
