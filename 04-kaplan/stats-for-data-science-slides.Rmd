@@ -1,0 +1,258 @@
+---
+title: "Teaching Stats for Data Science"
+author: "Danny Kaplan"
+date: "July 31, 2017"
+output:
+  rmdshower::shower_presentation:
+    self_contained: true
+    katex: true
+    ratio: 16x10
+    theme: material
+abstract: "Instructors generally don't give much thought to how and why the technical topics of introductory statistics came to be what they are: means, proportions, t-tests, normal distributions, chi-squared, etc. My reading of history suggests that these topics were not the discovery of mathematical foundations, but rather were sensible and pragmatic choices for the first half of the 20th century, in particular an environment where data was scarce and originated in benchtop or agricultural experiments, and algorithms were communicated via algebraic formulas. Today, most interest in statistics relates to a different environment: software is the means of algorithmic communication, observational and unplanned data are interpreted for causal relationships, and data are large both in n and the number of variables. This dramatic change in situation calls for a thorough rethinking of the topics in and approach to statistics education. I'll describe the design I reached for intro stats starting with an orientation to data science. This includes putting data management and visualization front and center, emphasizing models and effect sizes, and basing inference on cross-validation and resampling."
+---
+
+## Teaching Stats for Data Science { .white }
+
+<img src="images/rope-bridge.jpg" class="cover width">
+
+<!-- Source: http://www.irishnews.com/news/2017/05/25/news/carrick-a-rede-rope-bridge-closed-due-to-vandalism-1035183/ -->
+
+
+<p class="white">
+**Danny Kaplan**<br>
+Macalester College
+</p>
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(fig.height = 3.5)
+library(mosaicModel)
+library(mosaicCore)
+library(NHANES)
+library(ggformula)
+library(tidyverse)
+library(splines)
+data(Whickham, package = "mosaicData")
+```
+
+
+
+# A bridge is the wrong metaphor.
+
+## Bridges and roommates
+
+
+<div class="double">
+<p class="double-flow">
+**Bridges**
+
+* A narrow path spanning a gulf between two disconnected places.
+* Provides an opportunity to cross for those who are willing.
+* But you don't have to!
+
+<br>
+</p><p class="double-flow">
+**Roommates**
+
+* Inhabit the same shared space.
+* Generally requires compromise and mutual respect.
+* Daily (and unavoidable) exchanges and common activities.
+
+<br>
+</p>
+
+## Should we be roomies?
+
+* We'll have to give up some space.
+* We'll need to adopt some good data habits.
+* We'll have to learn to talk with guests our roommate invites over:
+    - large observational datasets 
+    - frequent interest in causation 
+    - guiding decision-making rather than rejecting hypothesis.
+* Since our rooms are small, a lot of our stuff will be in the living room and kitchen for everyone to use.
+
+## Proposal for the move:<br><br><br><br><br><br><br><br> Pack up our stuff into ten boxes
+
+<img src="images/moving-services-raleigh-1024x682.jpg" class="cover width">
+
+## Ten stat boxes
+
+<div class="double">
+1. Data tables (K)
+2. Data graphics (K)
+3. Model functions (K)
+4. Model training (K)
+5. Effect size and covariates (LR) 
+6. Displays of distributions
+7. Bootstrap replications
+8. Prediction error (LR)
+9. Comparing models (LR???)
+10. Generalization and causality
+</div>
+
+<br> 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; *K = for kitchen, LR = for living room*
+
+
+
+
+## <!-- Data Tables -->
+
+<img src="images/box1.png" class="place bottom left"  style="z-index:-1; padding-left:10%;">
+
+<img src="images/migrane-isrs1.png" class="place right">
+
+<div class="double">
+<div class="double-flow">
+* Tidy data: every row is a unit of observation; every column is a variable.
+* Meaningful *unit of observation*
+* Data tables vs presentations
+</div>
+<div class = "double-flow">
+Not this ...
+
+</div>
+</div>
+
+## Instead, this
+
+patient | accupuncture | pain    | date       | technician
+--------|--------------|---------|------------|------------
+A2322   | control      | yes     | 2014-03-15 | Audrey
+A2397   | treatment    | yes     | 2014-03-17 | Audrey
+A3213   | treatment    | no      | 2014-03-17 | Bill
+B8732   | treatment    | no      | 2014-03-18 | Audrey
+C6920   | control      | yes     | 2014-03-18 | Bill
+$\vdots$ | $\vdots$    |$\vdots$ | $\vdots$   | $\vdots$
+
+
+## <!-- 2. Data Graphics -->
+
+* Rich graphics, incl. color, tranparency, faceting, ...
+* Relationships among multiple variables
+
+```{r figure-3, out.width = "55%", fig.height = 5, fig.align = "right", warning = FALSE}
+NHANES %>% 
+  gf_point(Height ~ Age | Gender, color = ~ Gender, alpha = 0.1)
+```
+
+<img src="images/box2.png" class="place bottom left" style="z-index:-1; padding-left:10%;">
+
+
+
+
+## <!-- 3.  Model functions -->
+
+
+
+* Inputs and output, explanatory and response variables
+
+
+```{r echo = FALSE}
+hmod1 <- lm(Height ~ Gender * ns(Age, 5), data = NHANES) #training
+height <- mod_fun(hmod1) # pull out the function from the model
+```
+
+```{r out.width = "55%", fig.height = 3.5}
+height(Age = 25, Gender = "female")
+height(Age = 3:80, Gender = c("female", "male")) %>% 
+  gf_line(model_output ~ Age | Gender)
+```
+
+<img src="images/box3.png" class="place top right" style="padding-right:2%;">
+
+## <!-- Model Training -->
+
+**Model Training**: tools for building functions that look like your data
+
+```{r}
+hmod1 <- lm(Height ~ Gender * ns(Age, 5), data = NHANES) 
+```
+
+* Make it about different architectures, e.g. CART, Random Forest, Logistic regression, ...
+* Both regression models and classifiers 
+* Encourage nonlinearity (`ns()` == "not straight"?)
+    
+    
+<img src="images/box4.png" class="place bottom right" style="z-index:-1; padding-bottom:0%;">
+
+## <!-- 5. Effect size and covariates -->
+
+```{r warning = FALSE}
+wmod1 <- glm(outcome == "Dead" ~ smoker, data = Whickham,                    family = "binomial")
+mod_effect(wmod1, ~ smoker, age = c(40, 50, 60))
+wmod2 <- glm(outcome == "Dead" ~ smoker + age, data = Whickham,                 family = "binomial")
+mod_effect(wmod2, ~ smoker, age = c(40, 50, 60))
+```
+
+<img src="images/box5.png" class="place bottom right">
+
+## <!-- 6. Displays of distribution -->
+
+```{r out.width = "60%", warning = FALSE, fig.height = 3.5, fig.align="right"}
+NHANES %>% df_stats(Height ~ Gender, coverage(0.95))
+NHANES %>%
+  gf_jitter(Height ~ Gender, alpha = 0.05, width = 0.15) %>%
+  gf_violin(alpha = 0.3, fill = ~ Gender, color = NA)
+```
+
+<img src="images/box6.png" class="place bottom left" style="z-index:-1; padding-left:2%;">
+
+## <!-- 7. Bootstrap replications -->
+
+```{r cache = TRUE}
+hmod_ensemble <- mod_ensemble(hmod1, nreps = 4)
+mod_effect(hmod_ensemble, ~ Age, Age = 5, step = 1, 
+           Gender = c("male", "female")) %>%
+  arrange(Gender)
+```
+
+<img src="images/box7.png" class="place bottom right">
+
+## <!-- 8. Prediction error -->
+
+<img src="images/box8.png" class="place right" style="padding-right:5%;">
+
+```{r}
+mod_eval(hmod1, data = NHANES) %>%
+  df_stats( ~ I((model_output - Height)^2), mean)
+```
+
+Or make it a fundamental operation.
+
+```{r}
+mod_error(hmod1, testdata = NHANES)
+```
+
+## <!-- 9. Comparing models -->
+
+Let's try another model that's more flexile
+```{r}
+hmod2 <- lm(Height ~ Gender * ns(Age, 25), data = NHANES) 
+```
+
+How does it compare to the original?
+```{r cache = TRUE, warning = FALSE}
+mod_cv(hmod1, hmod2, ntrials = 50) %>% 
+  df_stats(mse ~ model, coverage(0.95))
+```
+
+<img src="images/box9.png" class="place bottom right">
+
+## <!-- 10. Generalization and causality -->
+
+- It's still important to talk about how to collect meaningful data to form conclusions that generalize outside the sample at hand.
+- Many data-science applications involve reasoning about causal influences.
+    - We need to come down from the mathematical high horse of "no causation without experimentation."
+    - Recognize responsible methods for addressing causation.
+    
+<br>
+    
+e.g. the Judea Pearl award in causality education
+
+<img src="images/box10.png" class="place bottom right" style="z-index:-1;">
+
+## ... and of course
+
+<img src="images/discard-box.png" style="z-index:-1;">
+
+
