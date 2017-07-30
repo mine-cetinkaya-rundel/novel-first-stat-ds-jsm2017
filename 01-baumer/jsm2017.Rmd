@@ -12,7 +12,7 @@ abstract: "Statistics educators---imbued with improved computing power---have ad
 
 ## Three Methods for Statistical Inference { .white }
 
-<img src="http://1.bp.blogspot.com/-ueOnJA9cGJk/VHWza-0saaI/AAAAAAAAP4g/WTbdP2qNSaE/s1920/monkey-wallpaper-hd.jpg" class="cover">
+<img src="http://1.bp.blogspot.com/-ueOnJA9cGJk/VHWza-0saaI/AAAAAAAAP4g/WTbdP2qNSaE/s1920/monkey-wallpaper-hd.jpg" class="cover height">
 
 </br></br></br>
 <p class="white">
@@ -26,7 +26,7 @@ July 31st, 2017</br>
 knitr::opts_chunk$set(fig.height = 3.5)
 ```
 
-## Three Methods to constuct null distribution
+## Three Methods to construct null distribution
 
 > 1. Simulation: use computer to *simulate* 
 > 2. Exact: use math to *compute*
@@ -97,7 +97,7 @@ observed +
 ## Method \#3: approximation
 
 - For $np > 10$ and $n(1-p) > 10$,
-$$Binomial(n, p) \approx Normal \left( p_0, \sqrt{\frac{p_0 (1 - p_0)}{n}} \right) $$
+$$\frac{1}{n} \cdot Binomial(n, p_0) \approx Normal \left( p_0, \sqrt{\frac{p_0 (1 - p_0)}{n}} \right) $$
 
 ```{r}
 se_p0 <- sqrt(p_0 * (1-p_0) / n)
@@ -125,16 +125,24 @@ observed +
              Simulation                    Exact             Approximation
 ----------- --------------------- --------------------- ------------------------
 Assumptions     independence           independence          independence
-                                     probability model        normality
-                                                              $np > 10$, etc.
+                                     probability model       $np > 10$, etc.
 
   Pros          no math               exact solution          uses normal
                 flexible                                   approx. usually good
                                                          no CPU required (sort of)
 
    Cons        requires CPU              HARD!              more assumptions
-               non-deterministic                            not exact 
+               non-deterministic    not always known            not exact 
 --------------------------------------------------------------------------------
+
+## Example \#2: two categorical variables
+
+- Simulation
+    - randomization test
+- Exact
+    - Fisher's exact test, hypergeometric 
+- Approximation
+    - $\chi^2$-test of independence
 
 # How did I get here?
 
@@ -144,29 +152,38 @@ Assumptions     independence           independence          independence
 - ~~Exact~~ (in probability class)
 - Approximation
 
-## Contributions from
+## It's not just me...
 
 
 
 <div class="double">
 <p class="double-flow">
-- George Cobb
-- Andrew Bray
-- Brad Efron
+- <img src="https://andrewpbray.github.io/abray-pic2.JPG" width="150px">
+Andrew Bray
+- <img src="https://www.causeweb.org/sbi/wp-content/uploads/2015/03/GCobb.png" width="150px">
+ George Cobb
+</p>
 
-</p><p class="double-flow">
-
-<img src="https://www.causeweb.org/sbi/wp-content/uploads/2015/03/GCobb.png" width="200px">
-<img src="https://andrewpbray.github.io/abray-pic2.JPG" width="200px">
-<img src="https://web.stanford.edu/~hastie/CASI/images/jacket_wave_cropped.jpg" width="200px">
+<p class="double-flow">
+- <img src="https://web.stanford.edu/~hastie/CASI/images/jacket_wave_cropped.jpg" width="200px">
+Brad Efron
 </p>
 </div>
 
 ## DataCamp
 
-- Mine Cetinkaya-Rundel
-- Andrew Bray
-- Jo Hardin
+<div class="double">
+<p class="double-flow">
+- [Statistics with R](https://www.datacamp.com/tracks/statistics-with-r) skills track
+- 4 courses available now
+- 4 more courses available soon
+
+</p>
+<p class="double-flow">
+  <img src="datacamp.png" width="300px">
+</p>
+</div>
+
 
 ## Pictures { .fullpage }
 

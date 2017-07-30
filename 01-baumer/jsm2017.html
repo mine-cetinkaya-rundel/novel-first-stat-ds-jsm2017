@@ -66,14 +66,14 @@
   
 <section id="three-methods-for-statistical-inference" class="slide level2 white">
 <h2>Three Methods for Statistical Inference</h2>
-<p><img src="http://1.bp.blogspot.com/-ueOnJA9cGJk/VHWza-0saaI/AAAAAAAAP4g/WTbdP2qNSaE/s1920/monkey-wallpaper-hd.jpg" class="cover"></p>
+<p><img src="http://1.bp.blogspot.com/-ueOnJA9cGJk/VHWza-0saaI/AAAAAAAAP4g/WTbdP2qNSaE/s1920/monkey-wallpaper-hd.jpg" class="cover height"></p>
 </br></br></br>
 <p class="white">
 Ben Baumer</br> JSM Baltimore</br> July 31st, 2017</br> (<a href="https://github.com/mine-cetinkaya-rundel/novel-first-stat-ds-jsm2017" class="uri">https://github.com/mine-cetinkaya-rundel/novel-first-stat-ds-jsm2017</a>)
 </p>
 </section>
-<section id="three-methods-to-constuct-null-distribution" class="slide level2">
-<h2>Three Methods to constuct null distribution</h2>
+<section id="three-methods-to-construct-null-distribution" class="slide level2">
+<h2>Three Methods to construct null distribution</h2>
 <ol type="1">
 <li class="fragment next">Simulation: use computer to <em>simulate</em></li>
 <li class="fragment next">Exact: use math to <em>compute</em></li>
@@ -134,7 +134,7 @@ observed +
 </section><section id="method-3-approximation" class="slide level2">
 <h2>Method #3: approximation</h2>
 <ul>
-<li>For <span class="math inline">\(np &gt; 10\)</span> and <span class="math inline">\(n(1-p) &gt; 10\)</span>, <span class="math display">\[Binomial(n, p) \approx Normal \left( p_0, \sqrt{\frac{p_0 (1 - p_0)}{n}} \right) \]</span></li>
+<li>For <span class="math inline">\(np &gt; 10\)</span> and <span class="math inline">\(n(1-p) &gt; 10\)</span>, <span class="math display">\[\frac{1}{n} \cdot Binomial(n, p_0) \approx Normal \left( p_0, \sqrt{\frac{p_0 (1 - p_0)}{n}} \right) \]</span></li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">se_p0 &lt;-<span class="st"> </span><span class="kw">sqrt</span>(p_0 *<span class="st"> </span>(<span class="dv">1</span>-p_0) /<span class="st"> </span>n)</code></pre></div>
 </section><section id="method-3-approximation-plot" class="slide level2">
@@ -171,7 +171,7 @@ observed +
 <td>Assumptions</td>
 <td style="text-align: center;">independence</td>
 <td style="text-align: center;">independence probability model</td>
-<td style="text-align: center;">independence normality <span class="math inline">\(np &gt; 10\)</span>, etc.</td>
+<td style="text-align: center;">independence <span class="math inline">\(np &gt; 10\)</span>, etc.</td>
 </tr>
 <tr class="even">
 <td>Pros</td>
@@ -182,11 +182,27 @@ observed +
 <tr class="odd">
 <td>Cons</td>
 <td style="text-align: center;">requires CPU non-deterministic</td>
-<td style="text-align: center;">HARD!</td>
+<td style="text-align: center;">HARD! not always known</td>
 <td style="text-align: center;">more assumptions not exact</td>
 </tr>
 </tbody>
 </table>
+</section><section id="example-2-two-categorical-variables" class="slide level2">
+<h2>Example #2: two categorical variables</h2>
+<ul>
+<li>Simulation
+<ul>
+<li>randomization test</li>
+</ul></li>
+<li>Exact
+<ul>
+<li>Fisher’s exact test, hypergeometric</li>
+</ul></li>
+<li>Approximation
+<ul>
+<li><span class="math inline">\(\chi^2\)</span>-test of independence</li>
+</ul></li>
+</ul>
 </section>
 <section id="how-did-i-get-here" class="titleslide slide level1"><h2 class="shout">How did I get here?</h2></section><section id="when-i-took-stats" class="slide level2">
 <h2>When I took stats</h2>
@@ -195,27 +211,35 @@ observed +
 <li><del>Exact</del> (in probability class)</li>
 <li>Approximation</li>
 </ul>
-</section><section id="contributions-from" class="slide level2">
-<h2>Contributions from</h2>
+</section><section id="its-not-just-me" class="slide level2">
+<h2>It’s not just me…</h2>
 <div class="double">
 <p class="double-flow">
 <ul>
-<li>George Cobb</li>
-<li>Andrew Bray</li>
-<li>Brad Efron</li>
+<li><img src="https://andrewpbray.github.io/abray-pic2.JPG" width="150px"> Andrew Bray</li>
+<li><img src="https://www.causeweb.org/sbi/wp-content/uploads/2015/03/GCobb.png" width="150px"> George Cobb</li>
 </ul>
 </p>
 <p class="double-flow">
-<img src="https://www.causeweb.org/sbi/wp-content/uploads/2015/03/GCobb.png" width="200px"> <img src="https://andrewpbray.github.io/abray-pic2.JPG" width="200px"> <img src="https://web.stanford.edu/~hastie/CASI/images/jacket_wave_cropped.jpg" width="200px">
+<ul>
+<li><img src="https://web.stanford.edu/~hastie/CASI/images/jacket_wave_cropped.jpg" width="200px"> Brad Efron</li>
+</ul>
 </p>
 </div>
 </section><section id="datacamp" class="slide level2">
 <h2>DataCamp</h2>
+<div class="double">
+<p class="double-flow">
 <ul>
-<li>Mine Cetinkaya-Rundel</li>
-<li>Andrew Bray</li>
-<li>Jo Hardin</li>
+<li><a href="https://www.datacamp.com/tracks/statistics-with-r">Statistics with R</a> skills track</li>
+<li>4 courses available now</li>
+<li>4 more courses available soon</li>
 </ul>
+</p>
+<p class="double-flow">
+<img src="datacamp.png" width="300px">
+</p>
+</div>
 </section><section id="pictures" class="slide level2 fullpage">
 <h2>Pictures</h2>
 <p><img src="statistical_inference.jpg" class="white" width="600px"></p>
