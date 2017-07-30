@@ -17,6 +17,6 @@ For some students the first course in statistics may be the only quantitative re
   - Rebecca Nugent, Carnegie Mellon - Lessons Learned in Transitioning from "Intro to Statistics" to "Reasoning with Data"
   - Mine Cetinkaya-Rundel, Duke University & RStudio - A First-Year Undergraduate Data Science Course
   - Teaching Stats for Data Science - Daniel Kaplan, Macalester College
-- **Discussant:** Deb Nolan (UC Berkeley)
+- **Discussant:** Dick DeVeaux (Williams College)
 - **Chair:** Andrew Bray (Reed College)
 - **Organizer:** Mine Cetinkaya-Rundel, Duke University & RStudio
