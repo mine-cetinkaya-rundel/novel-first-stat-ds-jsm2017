@@ -26,28 +26,110 @@ July 31st, 2017</br>
 knitr::opts_chunk$set(fig.height = 3.5)
 ```
 
+# Why am I talking about inference?
+
+## Inference
+
+<div class="double">
+- [ASA Statement on P-Values and Statistical Significance](http://amstat.tandfonline.com/doi/full/10.1080/00031305.2016.1154108)
+- [Symposium on Statistical Inference](https://ww2.amstat.org/meetings/ssi/2017/)
+
+<img src="https://ww2.amstat.org/meetings/ssi/2017/images/logo.png"width="400px">
+</div>
+
+## It's not just me...
+
+
+<div class="double">
+<p class"double-flow">
+- Brad Efron</br>
+<img src="https://web.stanford.edu/~hastie/CASI/images/jacket_wave_cropped.jpg" height="300px">
+</p>
+
+<p class"double-flow">
+- John Wellner
+<img src="https://ww2.amstat.org/meetings/jsm/2017/images/featured/FeaturedSpeakers-web_Wellner.png" height="300px">
+</p>
+</div>
+
+## The shoulders of greats
+
+<div class="double">
+<p class="double-flow">
+- George Cobb
+- Nick Horton
+- Katherine Halvorsen
+- Andrew Bray
+
+<img src="https://www.causeweb.org/sbi/wp-content/uploads/2015/03/GCobb.png" width="150px">
+<img src="https://www.amherst.edu/system/files/styles/original/private/media/photo/1545596.jpg" width="150px">
+<img src="http://magazine.amstat.org/wp-content/uploads/2017/02/BOD-Katherine-Halvorsen150x200.jpg" width="150px">
+<img src="https://andrewpbray.github.io/abray-pic2.JPG" width="150px">
+</p>
+</div>
+
+
+## About Smith
+
+
+<div class="double">
+<img src="https://i.forbesimg.com/media/lists/colleges/smith-college_416x416.jpg" alt="smith" width="300px">
+
+<p class="double-flow">
+- liberal arts college for women
+- new major in [Statistical & Data Sciences](http://www.smith.edu/sds/major.php)
+    - $\geq$ *3* courses in statistics
+    - $\geq$ *2* courses in programming
+    - $\geq$ *1* course in data science
+- no modeling or inference in data science
+</p>
+</div>
+
+## SDS 220
+
+<div class="double">
+<p class="double-flow">
+- most advanced intro stats course
+- calc or discrete math pre-req
+- 5 credits: 3 lectures, 1 lab
+- mostly STEM majors
+    - 40% EGR and BIO majors
+</p>
+
+<p class="double-flow">
+<img src="https://images-na.ssl-images-amazon.com/images/I/414KqCmzuhL._SX258_BO1,204,203,200_.jpg" alt="OpenIntro" width="300px">
+</div>
+
 ## Three Methods to construct null distribution
 
 > 1. Simulation: use computer to *simulate* 
 > 2. Exact: use math to *compute*
 > 3. Approximation: use statistical theory to *approximate*
 
+
+## When I took stats
+
+- ~~Simulation~~
+- ~~Exact~~ (in probability class)
+- Approximation
+
+
 # An example:</br>one proportion
 
 ## Method \#1: simulation
 
 
-```{r, message=FALSE}
+```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 
 outcomes <- data_frame(candidate = c("clinton", "trump"))
 p_0 <- 1/2
 
 # http://www.cnn.com/election/results/exit-polls
-n <- 2458
+n <- 246
 
 sim <- outcomes %>%
-  oilabs::rep_sample_n(size = n, replace = TRUE, reps = 1000) %>%
+  oilabs::rep_sample_n(size = n, replace = TRUE, reps = 10000) %>%
   group_by(replicate) %>%
   summarize(N = n(), 
             clinton_votes = sum(candidate == "clinton")) %>%
@@ -112,7 +194,7 @@ observed +
 
 ## Three methods comparison, plot
 
-```{r}
+```{r, warning=FALSE}
 observed +
   geom_density(data = sim, aes(x = clinton_pct)) + 
   stat_function(fun = dbinom_p, args = c(size = n, prob = p_0), color = "cyan") +
@@ -143,32 +225,6 @@ Assumptions     independence           independence          independence
     - Fisher's exact test, hypergeometric 
 - Approximation
     - $\chi^2$-test of independence
-
-# How did I get here?
-
-## When I took stats
-
-- ~~Simulation~~
-- ~~Exact~~ (in probability class)
-- Approximation
-
-## It's not just me...
-
-
-
-<div class="double">
-<p class="double-flow">
-- <img src="https://andrewpbray.github.io/abray-pic2.JPG" width="150px">
-Andrew Bray
-- <img src="https://www.causeweb.org/sbi/wp-content/uploads/2015/03/GCobb.png" width="150px">
- George Cobb
-</p>
-
-<p class="double-flow">
-- <img src="https://web.stanford.edu/~hastie/CASI/images/jacket_wave_cropped.jpg" width="200px">
-Brad Efron
-</p>
-</div>
 
 ## DataCamp
 

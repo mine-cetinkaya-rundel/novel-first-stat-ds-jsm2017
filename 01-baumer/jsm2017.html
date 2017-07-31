@@ -72,13 +72,90 @@
 Ben Baumer</br> JSM Baltimore</br> July 31st, 2017</br> (<a href="https://github.com/mine-cetinkaya-rundel/novel-first-stat-ds-jsm2017" class="uri">https://github.com/mine-cetinkaya-rundel/novel-first-stat-ds-jsm2017</a>)
 </p>
 </section>
-<section id="three-methods-to-construct-null-distribution" class="slide level2">
+<section id="why-am-i-talking-about-inference" class="titleslide slide level1"><h2 class="shout">Why am I talking about inference?</h2></section><section id="inference" class="slide level2">
+<h2>Inference</h2>
+<div class="double">
+<ul>
+<li><a href="http://amstat.tandfonline.com/doi/full/10.1080/00031305.2016.1154108">ASA Statement on P-Values and Statistical Significance</a></li>
+<li><a href="https://ww2.amstat.org/meetings/ssi/2017/">Symposium on Statistical Inference</a></li>
+</ul>
+<p><img src="https://ww2.amstat.org/meetings/ssi/2017/images/logo.png"width="400px"></p>
+</div>
+</section><section id="its-not-just-me" class="slide level2">
+<h2>It’s not just me…</h2>
+<div class="double">
+<p class"double-flow">
+<ul>
+<li>Brad Efron</br> <img src="https://web.stanford.edu/~hastie/CASI/images/jacket_wave_cropped.jpg" height="300px"></li>
+</ul>
+</p>
+<p class"double-flow">
+<ul>
+<li>John Wellner <img src="https://ww2.amstat.org/meetings/jsm/2017/images/featured/FeaturedSpeakers-web_Wellner.png" height="300px"></li>
+</ul>
+</p>
+</div>
+</section><section id="the-shoulders-of-greats" class="slide level2">
+<h2>The shoulders of greats</h2>
+<div class="double">
+<p class="double-flow">
+<ul>
+<li>George Cobb</li>
+<li>Nick Horton</li>
+<li>Katherine Halvorsen</li>
+<li>Andrew Bray</li>
+</ul>
+<img src="https://www.causeweb.org/sbi/wp-content/uploads/2015/03/GCobb.png" width="150px"> <img src="https://www.amherst.edu/system/files/styles/original/private/media/photo/1545596.jpg" width="150px"> <img src="http://magazine.amstat.org/wp-content/uploads/2017/02/BOD-Katherine-Halvorsen150x200.jpg" width="150px"> <img src="https://andrewpbray.github.io/abray-pic2.JPG" width="150px">
+</p>
+</div>
+</section><section id="about-smith" class="slide level2">
+<h2>About Smith</h2>
+<div class="double">
+<p><img src="https://i.forbesimg.com/media/lists/colleges/smith-college_416x416.jpg" alt="smith" width="300px"></p>
+<p class="double-flow">
+<ul>
+<li>liberal arts college for women</li>
+<li>new major in <a href="http://www.smith.edu/sds/major.php">Statistical &amp; Data Sciences</a>
+<ul>
+<li><span class="math inline">\(\geq\)</span> <em>3</em> courses in statistics</li>
+<li><span class="math inline">\(\geq\)</span> <em>2</em> courses in programming</li>
+<li><span class="math inline">\(\geq\)</span> <em>1</em> course in data science</li>
+</ul></li>
+<li>no modeling or inference in data science</li>
+</ul>
+</p>
+</div>
+</section><section id="sds-220" class="slide level2">
+<h2>SDS 220</h2>
+<div class="double">
+<p class="double-flow">
+<ul>
+<li>most advanced intro stats course</li>
+<li>calc or discrete math pre-req</li>
+<li>5 credits: 3 lectures, 1 lab</li>
+<li>mostly STEM majors
+<ul>
+<li>40% EGR and BIO majors</li>
+</ul></li>
+</ul>
+</p>
+<p class="double-flow">
+<img src="https://images-na.ssl-images-amazon.com/images/I/414KqCmzuhL._SX258_BO1,204,203,200_.jpg" alt="OpenIntro" width="300px">
+</div>
+</section><section id="three-methods-to-construct-null-distribution" class="slide level2">
 <h2>Three Methods to construct null distribution</h2>
 <ol type="1">
 <li class="fragment next">Simulation: use computer to <em>simulate</em></li>
 <li class="fragment next">Exact: use math to <em>compute</em></li>
 <li class="fragment next">Approximation: use statistical theory to <em>approximate</em></li>
 </ol>
+</section><section id="when-i-took-stats" class="slide level2">
+<h2>When I took stats</h2>
+<ul>
+<li><del>Simulation</del></li>
+<li><del>Exact</del> (in probability class)</li>
+<li>Approximation</li>
+</ul>
 </section>
 <section id="an-exampleone-proportion" class="titleslide slide level1"><h2 class="shout">An example:</br>one proportion</h2></section><section id="method-1-simulation" class="slide level2">
 <h2>Method #1: simulation</h2>
@@ -88,10 +165,10 @@ outcomes &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span 
 p_0 &lt;-<span class="st"> </span><span class="dv">1</span>/<span class="dv">2</span>
 
 <span class="co"># http://www.cnn.com/election/results/exit-polls</span>
-n &lt;-<span class="st"> </span><span class="dv">2458</span>
+n &lt;-<span class="st"> </span><span class="dv">246</span>
 
 sim &lt;-<span class="st"> </span>outcomes %&gt;%
-<span class="st">  </span>oilabs::<span class="kw">rep_sample_n</span>(<span class="dt">size =</span> n, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">1000</span>) %&gt;%
+<span class="st">  </span>oilabs::<span class="kw">rep_sample_n</span>(<span class="dt">size =</span> n, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">reps =</span> <span class="dv">10000</span>) %&gt;%
 <span class="st">  </span><span class="kw">group_by</span>(replicate) %&gt;%
 <span class="st">  </span><span class="kw">summarize</span>(<span class="dt">N =</span> <span class="kw">n</span>(), 
             <span class="dt">clinton_votes =</span> <span class="kw">sum</span>(candidate ==<span class="st"> &quot;clinton&quot;</span>)) %&gt;%
@@ -109,6 +186,7 @@ observed &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span clas
 <h2>Method #1: simulation, plot</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">observed +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data =</span> sim, <span class="kw">aes</span>(<span class="dt">x =</span> clinton_pct))</code></pre></div>
+<pre><code>## Warning: Removed 1098 rows containing non-finite values (stat_density).</code></pre>
 <p><img src="jsm2017_files/figure-revealjs/unnamed-chunk-4-1.png" width="768" /></p>
 </section><section id="method-2-exact" class="slide level2">
 <h2>Method #2: exact</h2>
@@ -203,29 +281,6 @@ observed +
 <li><span class="math inline">\(\chi^2\)</span>-test of independence</li>
 </ul></li>
 </ul>
-</section>
-<section id="how-did-i-get-here" class="titleslide slide level1"><h2 class="shout">How did I get here?</h2></section><section id="when-i-took-stats" class="slide level2">
-<h2>When I took stats</h2>
-<ul>
-<li><del>Simulation</del></li>
-<li><del>Exact</del> (in probability class)</li>
-<li>Approximation</li>
-</ul>
-</section><section id="its-not-just-me" class="slide level2">
-<h2>It’s not just me…</h2>
-<div class="double">
-<p class="double-flow">
-<ul>
-<li><img src="https://andrewpbray.github.io/abray-pic2.JPG" width="150px"> Andrew Bray</li>
-<li><img src="https://www.causeweb.org/sbi/wp-content/uploads/2015/03/GCobb.png" width="150px"> George Cobb</li>
-</ul>
-</p>
-<p class="double-flow">
-<ul>
-<li><img src="https://web.stanford.edu/~hastie/CASI/images/jacket_wave_cropped.jpg" width="200px"> Brad Efron</li>
-</ul>
-</p>
-</div>
 </section><section id="datacamp" class="slide level2">
 <h2>DataCamp</h2>
 <div class="double">
