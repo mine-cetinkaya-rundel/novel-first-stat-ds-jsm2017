@@ -95,17 +95,17 @@ Ben Baumer</br> JSM Baltimore</br> July 31st, 2017</br> (<a href="https://github
 </ul>
 </p>
 </div>
-</section><section id="the-shoulders-of-greats" class="slide level2">
-<h2>The shoulders of greats</h2>
+</section><section id="the-shoulders-of-giants" class="slide level2">
+<h2>The shoulders of giants</h2>
 <div class="double">
 <p class="double-flow">
 <ul>
-<li>George Cobb</li>
-<li>Nick Horton</li>
 <li>Katherine Halvorsen</li>
+<li>Nick Horton</li>
+<li>George Cobb</li>
 <li>Andrew Bray</li>
 </ul>
-<img src="https://www.causeweb.org/sbi/wp-content/uploads/2015/03/GCobb.png" width="150px"> <img src="https://www.amherst.edu/system/files/styles/original/private/media/photo/1545596.jpg" width="150px"> <img src="http://magazine.amstat.org/wp-content/uploads/2017/02/BOD-Katherine-Halvorsen150x200.jpg" width="150px"> <img src="https://andrewpbray.github.io/abray-pic2.JPG" width="150px">
+<img src="http://magazine.amstat.org/wp-content/uploads/2017/02/BOD-Katherine-Halvorsen150x200.jpg" width="150px"> <img src="https://www.amherst.edu/system/files/styles/original/private/media/photo/1545596.jpg" width="150px"> <img src="https://www.causeweb.org/sbi/wp-content/uploads/2015/03/GCobb.png" width="150px"> <img src="https://andrewpbray.github.io/abray-pic2.JPG" width="150px">
 </p>
 </div>
 </section><section id="about-smith" class="slide level2">
@@ -315,15 +315,23 @@ setup &lt;-<span class="st"> </span>fake_null %&gt;%
 </section><section id="method-1-with-infer" class="slide level2">
 <h2>Method #1 with <code>infer</code></h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">setup %&gt;%
-<span class="st">  </span><span class="kw">generate</span>(<span class="dt">reps =</span> <span class="dv">1000</span>, <span class="dt">type =</span> <span class="st">&quot;simulate&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">generate</span>(<span class="dt">reps =</span> <span class="dv">10000</span>, <span class="dt">type =</span> <span class="st">&quot;simulate&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">calculate</span>(<span class="dt">stat =</span> <span class="st">&quot;prop&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">visualize</span>() +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">data =</span> p_hat, <span class="kw">aes</span>(<span class="dt">xintercept =</span> clinton_pct), 
              <span class="dt">color =</span> <span class="st">&quot;gold&quot;</span>, <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">linetype =</span> <span class="dv">2</span>)</code></pre></div>
 <p><img src="jsm2017_files/figure-revealjs/unnamed-chunk-10-1.png" width="768" /></p>
+</section><section id="method-2-with-infer" class="slide level2">
+<h2>Method #2 with <code>infer</code></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># not implemented yet; compare to binom.test()</span>
+setup %&gt;%
+<span class="st">  </span><span class="kw">calculate</span>(<span class="dt">stat =</span> <span class="st">&quot;prop&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">visualize</span>() +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">data =</span> p_hat, <span class="kw">aes</span>(<span class="dt">xintercept =</span> clinton_pct), 
+             <span class="dt">color =</span> <span class="st">&quot;gold&quot;</span>, <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">linetype =</span> <span class="dv">2</span>)</code></pre></div>
 </section><section id="method-3-with-infer" class="slide level2">
 <h2>Method #3 with <code>infer</code></h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># not implemented yet</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># not implemented yet; compare to prop.test()</span>
 setup %&gt;%
 <span class="st">  </span><span class="kw">calculate</span>(<span class="dt">stat =</span> <span class="st">&quot;prop&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">visualize</span>() +<span class="st"> </span>

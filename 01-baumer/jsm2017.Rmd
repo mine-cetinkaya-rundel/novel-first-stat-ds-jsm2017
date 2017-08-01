@@ -52,18 +52,18 @@ knitr::opts_chunk$set(fig.height = 3.5)
 </p>
 </div>
 
-## The shoulders of greats
+## The shoulders of giants
 
 <div class="double">
 <p class="double-flow">
-- George Cobb
-- Nick Horton
 - Katherine Halvorsen
+- Nick Horton
+- George Cobb
 - Andrew Bray
 
-<img src="https://www.causeweb.org/sbi/wp-content/uploads/2015/03/GCobb.png" width="150px">
-<img src="https://www.amherst.edu/system/files/styles/original/private/media/photo/1545596.jpg" width="150px">
 <img src="http://magazine.amstat.org/wp-content/uploads/2017/02/BOD-Katherine-Halvorsen150x200.jpg" width="150px">
+<img src="https://www.amherst.edu/system/files/styles/original/private/media/photo/1545596.jpg" width="150px">
+<img src="https://www.causeweb.org/sbi/wp-content/uploads/2015/03/GCobb.png" width="150px">
 <img src="https://andrewpbray.github.io/abray-pic2.JPG" width="150px">
 </p>
 </div>
@@ -268,7 +268,18 @@ setup <- fake_null %>%
 
 ```{r, fig.height=3}
 setup %>%
-  generate(reps = 1000, type = "simulate") %>%
+  generate(reps = 10000, type = "simulate") %>%
+  calculate(stat = "prop") %>%
+  visualize() + 
+  geom_vline(data = p_hat, aes(xintercept = clinton_pct), 
+             color = "gold", size = 2, linetype = 2)
+```
+
+## Method \#2 with `infer`
+
+```{r, eval=FALSE}
+# not implemented yet; compare to binom.test()
+setup %>%
   calculate(stat = "prop") %>%
   visualize() + 
   geom_vline(data = p_hat, aes(xintercept = clinton_pct), 
@@ -278,7 +289,7 @@ setup %>%
 ## Method \#3 with `infer`
 
 ```{r, eval=FALSE}
-# not implemented yet
+# not implemented yet; compare to prop.test()
 setup %>%
   calculate(stat = "prop") %>%
   visualize() + 
