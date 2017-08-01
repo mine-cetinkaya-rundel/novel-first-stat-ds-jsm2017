@@ -12,7 +12,7 @@ abstract: "Statistics educators---imbued with improved computing power---have ad
 
 ## Three Methods for Statistical Inference { .white }
 
-<img src="http://1.bp.blogspot.com/-ueOnJA9cGJk/VHWza-0saaI/AAAAAAAAP4g/WTbdP2qNSaE/s1920/monkey-wallpaper-hd.jpg" class="cover">
+<img src="http://1.bp.blogspot.com/-ueOnJA9cGJk/VHWza-0saaI/AAAAAAAAP4g/WTbdP2qNSaE/s1920/monkey-wallpaper-hd.jpg" class="cover height">
 
 </br></br></br>
 <p class="white">
@@ -26,28 +26,110 @@ July 31st, 2017</br>
 knitr::opts_chunk$set(fig.height = 3.5)
 ```
 
-## Three Methods to constuct null distribution
+# Why am I talking about inference?
+
+## Inference
+
+<div class="double">
+- [ASA Statement on P-Values and Statistical Significance](http://amstat.tandfonline.com/doi/full/10.1080/00031305.2016.1154108)
+- [Symposium on Statistical Inference](https://ww2.amstat.org/meetings/ssi/2017/)
+
+<img src="https://ww2.amstat.org/meetings/ssi/2017/images/logo.png"width="400px">
+</div>
+
+## It's not just me...
+
+
+<div class="double">
+<p class"double-flow">
+- Brad Efron & Trevor Hastie</br>
+<img src="https://web.stanford.edu/~hastie/CASI/images/jacket_wave_cropped.jpg" height="300px">
+</p>
+
+<p class"double-flow">
+- Jon Wellner: [Teaching Statistics in the Age of Data Science](https://ww2.amstat.org/meetings/jsm/2017/onlineprogram/AbstractDetails.cfm?abstractid=322379) 
+<img src="https://ww2.amstat.org/meetings/jsm/2017/images/featured/FeaturedSpeakers-web_Wellner.png" height="200px">
+</p>
+</div>
+
+## The shoulders of giants
+
+<div class="double">
+<p class="double-flow">
+- Katherine Halvorsen
+- Nick Horton
+- George Cobb
+- Andrew Bray
+
+<img src="http://magazine.amstat.org/wp-content/uploads/2017/02/BOD-Katherine-Halvorsen150x200.jpg" width="150px">
+<img src="https://www.amherst.edu/system/files/styles/original/private/media/photo/1545596.jpg" width="150px">
+<img src="https://www.causeweb.org/sbi/wp-content/uploads/2015/03/GCobb.png" width="150px">
+<img src="https://andrewpbray.github.io/abray-pic2.JPG" width="150px">
+</p>
+</div>
+
+
+## About Smith
+
+
+<div class="double">
+<img src="https://i.forbesimg.com/media/lists/colleges/smith-college_416x416.jpg" alt="smith" width="300px">
+
+<p class="double-flow">
+- liberal arts college for women
+- new major in [Statistical & Data Sciences](http://www.smith.edu/sds/major.php)
+    - $\geq$ *3* courses in statistics
+    - $\geq$ *2* courses in programming
+    - $\geq$ *1* course in data science
+- no modeling or inference in data science
+</p>
+</div>
+
+## SDS 220
+
+<div class="double">
+<p class="double-flow">
+- most advanced intro stats course
+- calc or discrete math pre-req
+- 5 credits: 3 lectures, 1 lab
+- mostly STEM majors
+    - 40% EGR and BIO majors
+</p>
+
+<p class="double-flow">
+<img src="https://images-na.ssl-images-amazon.com/images/I/414KqCmzuhL._SX258_BO1,204,203,200_.jpg" alt="OpenIntro" width="300px">
+</div>
+
+## Three Methods to construct null distribution
 
 > 1. Simulation: use computer to *simulate* 
 > 2. Exact: use math to *compute*
 > 3. Approximation: use statistical theory to *approximate*
+
+
+## When I took stats
+
+> 1. ~~Simulation~~
+> 2. ~~Exact~~ (in probability class)
+> 3. Approximation
+
 
 # An example:</br>one proportion
 
 ## Method \#1: simulation
 
 
-```{r, message=FALSE}
+```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 
 outcomes <- data_frame(candidate = c("clinton", "trump"))
 p_0 <- 1/2
 
 # http://www.cnn.com/election/results/exit-polls
-n <- 2458
+n <- 246
 
 sim <- outcomes %>%
-  oilabs::rep_sample_n(size = n, replace = TRUE, reps = 1000) %>%
+  oilabs::rep_sample_n(size = n, replace = TRUE, reps = 10000) %>%
   group_by(replicate) %>%
   summarize(N = n(), 
             clinton_votes = sum(candidate == "clinton")) %>%
@@ -60,15 +142,16 @@ sim <- outcomes %>%
 # observed proportion
 p_hat <- data_frame(clinton_pct = 0.5092953)
 
+# what we know from data
 observed <- ggplot(data = p_hat) + 
   geom_vline(aes(xintercept = clinton_pct), 
              color = "gold", size = 2, linetype = 2) + 
-  scale_x_continuous(limits = c(0.45, 0.55))
+  scale_x_continuous(limits = c(0.4, 0.6))
 ```
 
 ## Method \#1: simulation, plot
 
-```{r, message=FALSE}
+```{r, message=FALSE, warning=FALSE}
 observed + 
   geom_density(data = sim, aes(x = clinton_pct))
 ```
@@ -97,7 +180,7 @@ observed +
 ## Method \#3: approximation
 
 - For $np > 10$ and $n(1-p) > 10$,
-$$Binomial(n, p) \approx Normal \left( p_0, \sqrt{\frac{p_0 (1 - p_0)}{n}} \right) $$
+$$\frac{1}{n} \cdot Binomial(n, p_0) \approx Normal \left( p_0, \sqrt{\frac{p_0 (1 - p_0)}{n}} \right) $$
 
 ```{r}
 se_p0 <- sqrt(p_0 * (1-p_0) / n)
@@ -112,7 +195,7 @@ observed +
 
 ## Three methods comparison, plot
 
-```{r}
+```{r, warning=FALSE}
 observed +
   geom_density(data = sim, aes(x = clinton_pct)) + 
   stat_function(fun = dbinom_p, args = c(size = n, prob = p_0), color = "cyan") +
@@ -125,54 +208,45 @@ observed +
              Simulation                    Exact             Approximation
 ----------- --------------------- --------------------- ------------------------
 Assumptions     independence           independence          independence
-                                     probability model        normality
-                                                              $np > 10$, etc.
+                                     probability model       $np > 10$, etc.
 
-  Pros          no math               exact solution          uses normal
-                flexible                                   approx. usually good
-                                                         no CPU required (sort of)
+  Pros         no math required        exact solution          uses normal
+                  flexible                                 approx. usu. good
+                                                             no CPU required
 
-   Cons        requires CPU              HARD!              more assumptions
-               non-deterministic                            not exact 
+   Cons        requires computer    usu. HARD to derive!        more assumptions
+               non-deterministic     not always known            not exact 
 --------------------------------------------------------------------------------
 
-# How did I get here?
+## Example \#2: two categorical variables
 
-## When I took stats
-
-- ~~Simulation~~
-- ~~Exact~~ (in probability class)
+- Simulation
+    - randomization test
+- Exact
+    - Fisher's exact test, hypergeometric 
 - Approximation
+    - $\chi^2$-test of independence
 
-## Contributions from
-
-
-
-<div class="double">
-<p class="double-flow">
-- George Cobb
-- Andrew Bray
-- Brad Efron
-
-</p><p class="double-flow">
-
-<img src="https://www.causeweb.org/sbi/wp-content/uploads/2015/03/GCobb.png" width="200px">
-<img src="https://andrewpbray.github.io/abray-pic2.JPG" width="200px">
-<img src="https://web.stanford.edu/~hastie/CASI/images/jacket_wave_cropped.jpg" width="200px">
-</p>
-</div>
+# Unification?
 
 ## DataCamp
 
-- Mine Cetinkaya-Rundel
-- Andrew Bray
-- Jo Hardin
+<div class="double">
+<p class="double-flow">
+- [Statistics with R](https://www.datacamp.com/tracks/statistics-with-r) skills track
+- 4 courses available now
+- 4 more courses available soon
+
+</p>
+<p class="double-flow">
+  <img src="datacamp.png" width="300px">
+</p>
+</div>
+
 
 ## Pictures { .fullpage }
 
 <img src="statistical_inference.jpg" class="white" width="600px">
-
-# Unification?
 
 ## Common setup with `infer`
 
@@ -184,6 +258,7 @@ fake_null <- data_frame(
   candidate = rep(c("clinton", "trump"), each = n/2)
 )
 
+# independent of three methods
 setup <- fake_null %>%
   specify(response = candidate) %>%
   hypothesize(null = "point", p = c("clinton" = 0.5, "trump" = 0.5))
@@ -193,7 +268,18 @@ setup <- fake_null %>%
 
 ```{r, fig.height=3}
 setup %>%
-  generate(reps = 1000, type = "simulate") %>%
+  generate(reps = 10000, type = "simulate") %>%
+  calculate(stat = "prop") %>%
+  visualize() + 
+  geom_vline(data = p_hat, aes(xintercept = clinton_pct), 
+             color = "gold", size = 2, linetype = 2)
+```
+
+## Method \#2 with `infer`
+
+```{r, eval=FALSE}
+# not implemented yet; compare to binom.test()
+setup %>%
   calculate(stat = "prop") %>%
   visualize() + 
   geom_vline(data = p_hat, aes(xintercept = clinton_pct), 
@@ -203,6 +289,7 @@ setup %>%
 ## Method \#3 with `infer`
 
 ```{r, eval=FALSE}
+# not implemented yet; compare to prop.test()
 setup %>%
   calculate(stat = "prop") %>%
   visualize() + 
@@ -210,9 +297,18 @@ setup %>%
              color = "gold", size = 2, linetype = 2)
 ```
 
-## Thank you! {.fullpage}
+## Thank you!
 
+<div class="double">
+<p class="double-flow">
 <img src="https://media.giphy.com/media/aAW7yJ4m7YCti/giphy.gif" width="400px">
+</p>
 
-</br></br></br></br></br></br>
-(https://github.com/mine-cetinkaya-rundel/novel-first-stat-ds-jsm2017)
+<p class="double-flow">
+<img src="https://image.flaticon.com/icons/png/512/27/27630.png" width="100px"> [bbaumer@smith.edu](mailto:bbaumer@smith.edu)
+</br>
+<img src="https://www.aha.io/assets/github.7433692cabbfa132f34adb034e7909fa.png" width="100px"> [beanumber](https://github.com/mine-cetinkaya-rundel/novel-first-stat-ds-jsm2017)
+</br>
+<img src="http://www.tecnologia.com.pt/wp-content/uploads/2016/01/twitter-logo-2.png" width="100px"> [\@BaumerBen](https://twitter.com/BaumerBen)
+</p>
+</div>
