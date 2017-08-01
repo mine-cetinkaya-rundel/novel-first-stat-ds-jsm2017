@@ -18,7 +18,7 @@ abstract: "Statistics educators---imbued with improved computing power---have ad
 <p class="white">
 Ben Baumer</br>
 JSM Baltimore</br>
-July 31st, 2017</br>
+August 1st, 2017</br>
 (https://github.com/mine-cetinkaya-rundel/novel-first-stat-ds-jsm2017)
 </p>
 
