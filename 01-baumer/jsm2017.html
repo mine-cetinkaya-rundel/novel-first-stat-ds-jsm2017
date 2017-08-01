@@ -86,12 +86,12 @@ Ben Baumer</br> JSM Baltimore</br> July 31st, 2017</br> (<a href="https://github
 <div class="double">
 <p class"double-flow">
 <ul>
-<li>Brad Efron</br> <img src="https://web.stanford.edu/~hastie/CASI/images/jacket_wave_cropped.jpg" height="300px"></li>
+<li>Brad Efron &amp; Trevor Hastie</br> <img src="https://web.stanford.edu/~hastie/CASI/images/jacket_wave_cropped.jpg" height="300px"></li>
 </ul>
 </p>
 <p class"double-flow">
 <ul>
-<li>John Wellner <img src="https://ww2.amstat.org/meetings/jsm/2017/images/featured/FeaturedSpeakers-web_Wellner.png" height="300px"></li>
+<li>Jon Wellner: <a href="https://ww2.amstat.org/meetings/jsm/2017/onlineprogram/AbstractDetails.cfm?abstractid=322379">Teaching Statistics in the Age of Data Science</a> <img src="https://ww2.amstat.org/meetings/jsm/2017/images/featured/FeaturedSpeakers-web_Wellner.png" height="200px"></li>
 </ul>
 </p>
 </div>
@@ -151,11 +151,11 @@ Ben Baumer</br> JSM Baltimore</br> July 31st, 2017</br> (<a href="https://github
 </ol>
 </section><section id="when-i-took-stats" class="slide level2">
 <h2>When I took stats</h2>
-<ul>
-<li><del>Simulation</del></li>
-<li><del>Exact</del> (in probability class)</li>
-<li>Approximation</li>
-</ul>
+<ol type="1">
+<li class="fragment next"><del>Simulation</del></li>
+<li class="fragment next"><del>Exact</del> (in probability class)</li>
+<li class="fragment next">Approximation</li>
+</ol>
 </section>
 <section id="an-exampleone-proportion" class="titleslide slide level1"><h2 class="shout">An example:</br>one proportion</h2></section><section id="method-1-simulation" class="slide level2">
 <h2>Method #1: simulation</h2>
@@ -178,15 +178,15 @@ sim &lt;-<span class="st"> </span>outcomes %&gt;%
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># observed proportion</span>
 p_hat &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">clinton_pct =</span> <span class="fl">0.5092953</span>)
 
+<span class="co"># what we know from data</span>
 observed &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> p_hat) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> clinton_pct), 
              <span class="dt">color =</span> <span class="st">&quot;gold&quot;</span>, <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">linetype =</span> <span class="dv">2</span>) +<span class="st"> </span>
-<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="fl">0.45</span>, <span class="fl">0.55</span>))</code></pre></div>
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="fl">0.4</span>, <span class="fl">0.6</span>))</code></pre></div>
 </section><section id="method-1-simulation-plot" class="slide level2">
 <h2>Method #1: simulation, plot</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">observed +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data =</span> sim, <span class="kw">aes</span>(<span class="dt">x =</span> clinton_pct))</code></pre></div>
-<pre><code>## Warning: Removed 1098 rows containing non-finite values (stat_density).</code></pre>
 <p><img src="jsm2017_files/figure-revealjs/unnamed-chunk-4-1.png" width="768" /></p>
 </section><section id="method-2-exact" class="slide level2">
 <h2>Method #2: exact</h2>
@@ -253,14 +253,14 @@ observed +
 </tr>
 <tr class="even">
 <td>Pros</td>
-<td style="text-align: center;">no math flexible</td>
+<td style="text-align: center;">no math required flexible</td>
 <td style="text-align: center;">exact solution</td>
-<td style="text-align: center;">uses normal approx. usually good no CPU required (sort of)</td>
+<td style="text-align: center;">uses normal approx. usu. good no CPU required</td>
 </tr>
 <tr class="odd">
 <td>Cons</td>
-<td style="text-align: center;">requires CPU non-deterministic</td>
-<td style="text-align: center;">HARD! not always known</td>
+<td style="text-align: center;">requires computer non-deterministic</td>
+<td style="text-align: center;">usu. HARD to derive! not always known</td>
 <td style="text-align: center;">more assumptions not exact</td>
 </tr>
 </tbody>
@@ -281,7 +281,8 @@ observed +
 <li><span class="math inline">\(\chi^2\)</span>-test of independence</li>
 </ul></li>
 </ul>
-</section><section id="datacamp" class="slide level2">
+</section>
+<section id="unification" class="titleslide slide level1"><h2 class="shout">Unification?</h2></section><section id="datacamp" class="slide level2">
 <h2>DataCamp</h2>
 <div class="double">
 <p class="double-flow">
@@ -298,8 +299,7 @@ observed +
 </section><section id="pictures" class="slide level2 fullpage">
 <h2>Pictures</h2>
 <p><img src="statistical_inference.jpg" class="white" width="600px"></p>
-</section>
-<section id="unification" class="titleslide slide level1"><h2 class="shout">Unification?</h2></section><section id="common-setup-with-infer" class="slide level2">
+</section><section id="common-setup-with-infer" class="slide level2">
 <h2>Common setup with <code>infer</code></h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># devtools::install_github(&quot;andrewpbray/infer&quot;)</span>
 <span class="kw">library</span>(infer)
@@ -308,6 +308,7 @@ fake_null &lt;-<span class="st"> </span><span class="kw">data_frame</span>(
   <span class="dt">candidate =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;clinton&quot;</span>, <span class="st">&quot;trump&quot;</span>), <span class="dt">each =</span> n/<span class="dv">2</span>)
 )
 
+<span class="co"># independent of three methods</span>
 setup &lt;-<span class="st"> </span>fake_null %&gt;%
 <span class="st">  </span><span class="kw">specify</span>(<span class="dt">response =</span> candidate) %&gt;%
 <span class="st">  </span><span class="kw">hypothesize</span>(<span class="dt">null =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">p =</span> <span class="kw">c</span>(<span class="st">&quot;clinton&quot;</span> =<span class="st"> </span><span class="fl">0.5</span>, <span class="st">&quot;trump&quot;</span> =<span class="st"> </span><span class="fl">0.5</span>))</code></pre></div>
@@ -322,15 +323,22 @@ setup &lt;-<span class="st"> </span>fake_null %&gt;%
 <p><img src="jsm2017_files/figure-revealjs/unnamed-chunk-10-1.png" width="768" /></p>
 </section><section id="method-3-with-infer" class="slide level2">
 <h2>Method #3 with <code>infer</code></h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">setup %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># not implemented yet</span>
+setup %&gt;%
 <span class="st">  </span><span class="kw">calculate</span>(<span class="dt">stat =</span> <span class="st">&quot;prop&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">visualize</span>() +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">data =</span> p_hat, <span class="kw">aes</span>(<span class="dt">xintercept =</span> clinton_pct), 
              <span class="dt">color =</span> <span class="st">&quot;gold&quot;</span>, <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">linetype =</span> <span class="dv">2</span>)</code></pre></div>
-</section><section id="thank-you" class="slide level2 fullpage">
+</section><section id="thank-you" class="slide level2">
 <h2>Thank you!</h2>
-<p><img src="https://media.giphy.com/media/aAW7yJ4m7YCti/giphy.gif" width="400px"></p>
-<p></br></br></br></br></br></br> (<a href="https://github.com/mine-cetinkaya-rundel/novel-first-stat-ds-jsm2017" class="uri">https://github.com/mine-cetinkaya-rundel/novel-first-stat-ds-jsm2017</a>)</p>
+<div class="double">
+<p class="double-flow">
+<img src="https://media.giphy.com/media/aAW7yJ4m7YCti/giphy.gif" width="400px">
+</p>
+<p class="double-flow">
+<img src="https://image.flaticon.com/icons/png/512/27/27630.png" width="100px"> <a href="mailto:bbaumer@smith.edu">bbaumer@smith.edu</a> </br> <img src="https://www.aha.io/assets/github.7433692cabbfa132f34adb034e7909fa.png" width="100px"> <a href="https://github.com/mine-cetinkaya-rundel/novel-first-stat-ds-jsm2017">beanumber</a> </br> <img src="http://www.tecnologia.com.pt/wp-content/uploads/2016/01/twitter-logo-2.png" width="100px"> <a href="https://twitter.com/BaumerBen">@BaumerBen</a>
+</p>
+</div>
 </section>
 
   <!--

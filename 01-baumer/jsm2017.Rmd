@@ -42,13 +42,13 @@ knitr::opts_chunk$set(fig.height = 3.5)
 
 <div class="double">
 <p class"double-flow">
-- Brad Efron</br>
+- Brad Efron & Trevor Hastie</br>
 <img src="https://web.stanford.edu/~hastie/CASI/images/jacket_wave_cropped.jpg" height="300px">
 </p>
 
 <p class"double-flow">
-- John Wellner
-<img src="https://ww2.amstat.org/meetings/jsm/2017/images/featured/FeaturedSpeakers-web_Wellner.png" height="300px">
+- Jon Wellner: [Teaching Statistics in the Age of Data Science](https://ww2.amstat.org/meetings/jsm/2017/onlineprogram/AbstractDetails.cfm?abstractid=322379) 
+<img src="https://ww2.amstat.org/meetings/jsm/2017/images/featured/FeaturedSpeakers-web_Wellner.png" height="200px">
 </p>
 </div>
 
@@ -109,9 +109,9 @@ knitr::opts_chunk$set(fig.height = 3.5)
 
 ## When I took stats
 
-- ~~Simulation~~
-- ~~Exact~~ (in probability class)
-- Approximation
+> 1. ~~Simulation~~
+> 2. ~~Exact~~ (in probability class)
+> 3. Approximation
 
 
 # An example:</br>one proportion
@@ -142,15 +142,16 @@ sim <- outcomes %>%
 # observed proportion
 p_hat <- data_frame(clinton_pct = 0.5092953)
 
+# what we know from data
 observed <- ggplot(data = p_hat) + 
   geom_vline(aes(xintercept = clinton_pct), 
              color = "gold", size = 2, linetype = 2) + 
-  scale_x_continuous(limits = c(0.45, 0.55))
+  scale_x_continuous(limits = c(0.4, 0.6))
 ```
 
 ## Method \#1: simulation, plot
 
-```{r, message=FALSE}
+```{r, message=FALSE, warning=FALSE}
 observed + 
   geom_density(data = sim, aes(x = clinton_pct))
 ```
@@ -209,12 +210,12 @@ observed +
 Assumptions     independence           independence          independence
                                      probability model       $np > 10$, etc.
 
-  Pros          no math               exact solution          uses normal
-                flexible                                   approx. usually good
-                                                         no CPU required (sort of)
+  Pros         no math required        exact solution          uses normal
+                  flexible                                 approx. usu. good
+                                                             no CPU required
 
-   Cons        requires CPU              HARD!              more assumptions
-               non-deterministic    not always known            not exact 
+   Cons        requires computer    usu. HARD to derive!        more assumptions
+               non-deterministic     not always known            not exact 
 --------------------------------------------------------------------------------
 
 ## Example \#2: two categorical variables
@@ -225,6 +226,8 @@ Assumptions     independence           independence          independence
     - Fisher's exact test, hypergeometric 
 - Approximation
     - $\chi^2$-test of independence
+
+# Unification?
 
 ## DataCamp
 
@@ -245,8 +248,6 @@ Assumptions     independence           independence          independence
 
 <img src="statistical_inference.jpg" class="white" width="600px">
 
-# Unification?
-
 ## Common setup with `infer`
 
 ```{r, error=TRUE}
@@ -257,6 +258,7 @@ fake_null <- data_frame(
   candidate = rep(c("clinton", "trump"), each = n/2)
 )
 
+# independent of three methods
 setup <- fake_null %>%
   specify(response = candidate) %>%
   hypothesize(null = "point", p = c("clinton" = 0.5, "trump" = 0.5))
@@ -276,6 +278,7 @@ setup %>%
 ## Method \#3 with `infer`
 
 ```{r, eval=FALSE}
+# not implemented yet
 setup %>%
   calculate(stat = "prop") %>%
   visualize() + 
@@ -283,9 +286,18 @@ setup %>%
              color = "gold", size = 2, linetype = 2)
 ```
 
-## Thank you! {.fullpage}
+## Thank you!
 
+<div class="double">
+<p class="double-flow">
 <img src="https://media.giphy.com/media/aAW7yJ4m7YCti/giphy.gif" width="400px">
+</p>
 
-</br></br></br></br></br></br>
-(https://github.com/mine-cetinkaya-rundel/novel-first-stat-ds-jsm2017)
+<p class="double-flow">
+<img src="https://image.flaticon.com/icons/png/512/27/27630.png" width="100px"> [bbaumer@smith.edu](mailto:bbaumer@smith.edu)
+</br>
+<img src="https://www.aha.io/assets/github.7433692cabbfa132f34adb034e7909fa.png" width="100px"> [beanumber](https://github.com/mine-cetinkaya-rundel/novel-first-stat-ds-jsm2017)
+</br>
+<img src="http://www.tecnologia.com.pt/wp-content/uploads/2016/01/twitter-logo-2.png" width="100px"> [\@BaumerBen](https://twitter.com/BaumerBen)
+</p>
+</div>
